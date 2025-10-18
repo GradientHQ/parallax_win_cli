@@ -66,7 +66,8 @@ jobs:
     - name: Build installer
       run: |
         cd installer
-        .\build-nim-nozip.bat
+        cmd /c "build-nim-nozip.bat"
+      shell: cmd
     
     - name: Verify installer output
       run: |
