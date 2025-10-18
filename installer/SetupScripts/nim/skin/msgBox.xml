@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Window size="634,378" sizebox="0,0,0,0" mininfo="634,378" maxinfo="634,378" caption="0,0,0,30" bktrans="true">
+  <Font id="0" name="Microsoft YaHei" size="13" bold="false" default="true" shared="true"/>
+  <Font id="1" name="Microsoft YaHei" size="16" bold="false" shared="true"/>
+  <Font id="2" name="Microsoft YaHei" size="20" bold="true" shared="true"/>
+  <Font id="3" name="Microsoft YaHei" size="12" bold="false"/>
+  <Font id="4" name="Microsoft YaHei" size="11" bold="false" />
+  <VerticalLayout inset="1,1,1,1" bkimage="file='resources\bg\bg.png'" >
+    <HorizontalLayout float="true" inset="5,5,5,0" pos="0,0,634,30">
+      <Label width="13" height="13" padding="13,12,0,0" bkimage="file='resources\logo\gradient_logo.png'" />
+      <Label name="lblWindowTitle" padding="10,8,0,0" autowidth="true" text="Parallax Installer" textcolor="#FF000000" />
+      <Container />
+      <Button name="btnFinishedMin" width="9" height="9" padding="0,13" text="一" textcolor="#FF000000" hottextcolor="#FF00FFFF" pushedtextcolor="#FF00FFFF" font="3"/>
+      <Control width="5" />
+      <Button name="btnClose" width="9" height="9" padding="10,12,12,0" text="X" textcolor="#FF000000" hottextcolor="#FF00FFFF" pushedtextcolor="#FF00FFFF" font="4"/>
+    </HorizontalLayout>
+
+    <VerticalLayout padding="132,124,132,0">
+      <HorizontalLayout height="40">
+        <Control />
+        <Control bkimage="file='resources\msgbox\msgWarning.png'" width="46" height="40"/>
+        <Control />
+      </HorizontalLayout>
+      <Label name="lblMsg" padding="0,20" valign="top" align="left" textcolor="#FF000000" font="1" bkcolor="#FFFFFFFF"/>
+    </VerticalLayout>
+
+    <HorizontalLayout height="30" padding="37,0,37,19">
+      <Label text="gradient" font="2" textcolor="#FF000000" />
+      <Control />
+      <Button name="btnOK" width="183" height="30" bkimage="file='resources\button\btn_ok.png'" />
+      <Button name="btnCancel" width="183" height="30" bkimage="file='resources\button\btn_cancel.png'" padding="10,0"/>
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <VerticalLayout>
+    <!-- 中心背景图 -->
+    <VerticalLayout height="218" padding="41,73,41,0">
+      <Control bkimage="file='resources\welcome\bg.png'" width="537" height="218"/>
+    </VerticalLayout>
+
+    <!-- 底部区域 -->
+    <VerticalLayout padding="41,0,36,0">
+      <Control />
+      <!-- 协议勾选 -->
+      <HorizontalLayout height="30">
+        <CheckBox name="chkAgree" padding="0,12" width="12" height="12" selected="true" normalimage="file='resources\CheckBox\check_no.png'" selectedimage="file='resources\CheckBox\check_yes.png'"/>
+        <HorizontalLayout padding="8,6,0,0">
+          <Label text="I have agreed to License Agreement" textcolor="#FF323c39" font="1" align="left"/>
+          <!-- <Button name="btnLicenseLink" text="License Agreement" textcolor="#FF4A9EFF" font="1" bkcolor="#00000000" padding="0,0,0,0" textalign="left" visible="false"/> -->
+        </HorizontalLayout>
+        <Button name="btnQuickInstall" width="183" height="30" padding="0,0,6,0" bkimage="file='resources\button\btn_quick_install.png'" />
+      </HorizontalLayout>
+      <Control/>
+    </VerticalLayout>
+  </VerticalLayout>
+</Windows> 

@@ -1,0 +1,179 @@
+name: Parallax Windows Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*.*.*'  # 匹配版本标签如 v1.0.0, v2.1.3 等
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Visual Studio environment
+      uses: microsoft/setup-msbuild@v1.1
+    
+    - name: Setup CMake
+      uses: lukka/get-cmake@latest
+    
+    - name: Create build directory
+      run: |
+        cd src
+        mkdir build
+        cd build
+    
+    - name: Configure CMake
+      run: |
+        cd src/build
+        cmake ../parallax -A x64 -DCMAKE_BUILD_TYPE=Release
+    
+    - name: Build project
+      run: |
+        cd src/build
+        cmake --build . --config Release
+    
+    - name: Verify build output
+      run: |
+        if (Test-Path "src\build\x64\Release\parallax.exe") {
+          Write-Host "Build successful: parallax.exe found"
+          Get-Item "src\build\x64\Release\parallax.exe" | Select-Object Name, Length, LastWriteTime
+        } else {
+          Write-Host "Build failed: parallax.exe not found"
+          exit 1
+        }
+    
+    - name: Prepare installer files
+      run: |
+        # Create installer files directory
+        if (Test-Path "installer\FilesToInstall") {
+          Remove-Item "installer\FilesToInstall" -Recurse -Force
+        }
+        New-Item -ItemType Directory -Path "installer\FilesToInstall" -Force
+        
+        # Copy executable to installer directory
+        Copy-Item "src\build\x64\Release\parallax.exe" "installer\FilesToInstall\"
+        
+        Write-Host "Files prepared for installer:"
+        Get-ChildItem "installer\FilesToInstall" | Select-Object Name, Length
+    
+    - name: Build installer
+      run: |
+        cd installer
+        cmd /c "build-nim-nozip.bat"
+      shell: cmd
+    
+    - name: Verify installer output
+      run: |
+        $installerPath = "installer\Output\Gradient_Parallax_PC_Setup_v1.0.0.0.exe"
+        if (Test-Path $installerPath) {
+          Write-Host "Installer created successfully"
+          Get-Item $installerPath | Select-Object Name, Length, LastWriteTime
+        } else {
+          Write-Host "Installer creation failed"
+          Write-Host "Available files in installer\Output:"
+          if (Test-Path "installer\Output") {
+            Get-ChildItem "installer\Output" | Select-Object Name, Length
+          }
+          exit 1
+        }
+    
+    - name: Collect PDB files
+      run: |
+        # Create PDB directory
+        New-Item -ItemType Directory -Path "pdbs" -Force
+        
+        # Find and copy all PDB files from build directory
+        Write-Host "Searching for PDB files..."
+        $pdbFiles = Get-ChildItem -Path "src\build" -Filter "*.pdb" -Recurse
+        
+        if ($pdbFiles.Count -gt 0) {
+          Write-Host "Found PDB files:"
+          foreach ($pdb in $pdbFiles) {
+            Write-Host "- $($pdb.FullName)"
+            Copy-Item $pdb.FullName "pdbs\"
+          }
+        } else {
+          Write-Host "No PDB files found"
+        }
+        
+        Write-Host "PDB files collected:"
+        Get-ChildItem "pdbs" | Select-Object Name, Length
+    
+    - name: Create release package
+      run: |
+        # Get current date for versioning
+        $date = Get-Date -Format "yyyyMMdd"
+        $time = Get-Date -Format "HHmm"
+        $version = "1.0.0"
+        $datetime = "${date}_${time}"
+        
+        # Create package directory
+        New-Item -ItemType Directory -Path "release" -Force
+        
+        # Copy executable
+        Copy-Item "src\build\x64\Release\parallax.exe" "release\"
+        
+        # Create program tar.gz package
+        $packageName = "Parallax_Win-v${version}_${datetime}.tar.gz"
+        tar -czf $packageName -C release .
+        
+        # Create PDB tar.gz package
+        $pdbPackageName = "Parallax_Pdb-v${version}_${datetime}.tar.gz"
+        if (Test-Path "pdbs" -PathType Container) {
+          $pdbCount = (Get-ChildItem "pdbs").Count
+          if ($pdbCount -gt 0) {
+            tar -czf $pdbPackageName -C pdbs .
+            Write-Host "PDB package created: $pdbPackageName"
+          } else {
+            Write-Host "No PDB files to package"
+          }
+        }
+        
+        # Rename installer with timestamp
+        $installerName = "Parallax_Win_Setup_v${version}_${datetime}.exe"
+        Copy-Item "installer\Output\Gradient_Parallax_PC_Setup_v1.0.0.0.exe" $installerName
+        
+        Write-Host "Release packages created:"
+        Write-Host "- Program package: $packageName"
+        Write-Host "- PDB package: $pdbPackageName"
+        Write-Host "- Installer: $installerName"
+    
+    - name: Upload program package artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: parallax-win-package
+        path: Parallax_Win-v*.tar.gz
+    
+    - name: Upload PDB package artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: parallax-win-pdbs
+        path: Parallax_Pdb-v*.tar.gz
+    
+    - name: Upload installer artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: parallax-win-installer
+        path: Parallax_Win_Setup_v*.exe
+    
+    - name: Create GitHub release
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          Parallax_Win-v*.tar.gz
+          Parallax_Pdb-v*.tar.gz
+          Parallax_Win_Setup_v*.exe
+        name: Parallax Windows Release ${{ github.ref_name }}
+        tag_name: ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

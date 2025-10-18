@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <VerticalLayout bkcolor="#FF1E1E1E">
+    <!-- 顶部Logo区域 -->
+    <VerticalLayout height="90" padding="0,50,0,0">
+      <HorizontalLayout>
+        <Control />
+        <Control bkimage="file='resources\logo\gradient_logo.png'" width="67" height="61" />
+        <Control />
+      </HorizontalLayout>
+    </VerticalLayout>
+    
+    <!-- 失败信息 -->
+    <VerticalLayout padding="20,0,20,10">
+      <HorizontalLayout height="30">
+        <Label text="The installation Failed" textcolor="#FFFF4444" font="3" align="center" />
+      </HorizontalLayout>
+    </VerticalLayout>
+    
+    <!-- 错误详情区域 -->
+    <VerticalLayout height="80" padding="20,0,20,0">
+      <Label text="The installer encountered an error that caused the installation to fail." textcolor="#FFAAAAAA" font="1" align="left" />
+      <Label text="Please check your internet connection and ensure that you have" textcolor="#FFAAAAAA" font="1" align="left" />
+      <Label text="enough free disk space." textcolor="#FFAAAAAA" font="1" align="left" />
+      <Label text="If the problem persists, please contact our team for assistance." textcolor="#FFAAAAAA" font="1" align="left" />
+    </VerticalLayout>
+    
+    <!-- 底部按钮区域 -->
+    <VerticalLayout padding="20,15,20,0">
+      <HorizontalLayout>
+        <Control />
+        <Button name="btnFinishFail" height="40" width="100" text="Finish" 
+                bkcolor="#FF404040" textcolor="#FFFFFFFF" font="3"
+                borderround="8,8" />
+        <Control />
+      </HorizontalLayout>
+    </VerticalLayout>
+  </VerticalLayout>
+</Windows> 

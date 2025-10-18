@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <VerticalLayout inset="40,0,40,0">
+    <!-- 安装组件列表区域 -->
+    <VerticalLayout height="60" padding="0,50,20,0">
+      <Label text="The following components will be uninstalled:" textcolor="#FF323c39" font="0" align="left" />
+      <HorizontalLayout height="18" padding="0,5">
+        <CheckBox width="12" height="12" selected="true" normalimage="file='resources\CheckBox\check_no.png'" selectedimage="file='resources\CheckBox\check_yes.png'" padding="0,7"/>
+        <Label name="lblComponent1" text="Gradient Parallax Core" textcolor="#FF00AA00" font="11" align="left" padding="6,6"/>
+      </HorizontalLayout>
+    </VerticalLayout>
+
+    <!-- 日志输出区域 -->
+    <VerticalLayout bkcolor="#FFE8E8E8" width="538" height="118">
+      <RichEdit name="editUinstallLog" readonly="true" enabled="true" textcolor="#FF000000" inset="10,10,10,10" text=">  Starting installation process..." vscrollbar="false" multiline="true" font="1"/>
+    </VerticalLayout>
+
+    <!-- 进度条区域 -->
+    <VerticalLayout width="539" height="36" padding="0,15">
+      <Slider name="slrUnInstProgress" height="12" mouse="false" bkcolor="#FF404040" forecolor="#FF323c39" thumbsize="0,0" bordercolor="#FF000000" bordersize="1" borderround="2,2"/>
+
+      <HorizontalLayout height="18" padding="0,6">
+        <Label name="un_progress_tip" text="Installing..." textcolor="#FF000000" align="left" font="1"/>
+        <Label name="un_progress_pos" text="65%" textcolor="#FF000000" align="right" font="1"/>
+      </HorizontalLayout>
+    </VerticalLayout>
+
+    <HorizontalLayout padding="0,30,0,15" height="30">
+      <Label text="gradient" font="9" textcolor="#FF000000" />
+      <Control />
+      <Button name="btnCancel" width="183" height="30" bkimage="file='resources\button\btn_cancel.png'" />
+    </HorizontalLayout>
+  </VerticalLayout>
+</Windows>
