@@ -3,12 +3,6 @@
 
 # NSIS toolchain directories - mark as vendored
 installer/NSIS/** linguist-vendored
-installer/NSIS/Contrib/** linguist-vendored
-installer/NSIS/Include/** linguist-vendored
-installer/NSIS/Plugins/** linguist-vendored
-
-# NSIS language files - mark as vendored
-installer/NSIS/Contrib/Language\ files/** linguist-vendored
 
 # Other installer-related vendored files
 installer/7z.dll linguist-vendored
