@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <!-- 卸载完成页 -->
+  <VerticalLayout>
+    <!-- Logo image center area -->
+    <Control bkimage="file='resources\logo\uninstall_finished_logo.png'" width="85" height="85" padding="268,90,268,0" />
+
+    <!-- Success message and finish button section -->
+    <VerticalLayout height="64" width="430" padding="95,15,95,0">
+      <Label text="You have successfully uninstalled " textcolor="#FF000000" font="9" align="left" height="25" align="center" />
+      <Label text="Gradient Parallax." textcolor="#FF000000" font="9" align="left" height="25" align="center" padding="0,10"/>
+    </VerticalLayout>
+
+    <HorizontalLayout padding="40,55,36,15" height="30">
+      <Label text="gradient" font="9" textcolor="#FF000000" />
+      <Control />
+      <Button name="btnUninstalled" width="183" height="30" bkimage="file='resources\button\btn_finish.png'" />
+    </HorizontalLayout>
+  </VerticalLayout>
+</Windows>

@@ -1,0 +1,84 @@
+# Build directories and artifacts
+/src/build/
+**/build/
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+**/.vs/
+
+# Visual Studio files
+*.vcxproj.user
+*.vcxproj.filters
+*.sln.docstates
+*.suo
+*.user
+*.userosscache
+*.sln.docstates.json
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+!src/parallax/common_make/*.cmake
+
+# Compiled binaries
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.obj
+*.iobj
+*.ipdb
+*.exp
+
+# Log files
+*.log
+parallax.log
+
+# Configuration files (keep template)
+parallax_config.txt
+
+# Installer output
+/installer/Output/
+/installer/FilesToInstall/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# Package managers
+node_modules/
+.npm
+.yarn/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Test files
+test_*
+*_test
+*.test

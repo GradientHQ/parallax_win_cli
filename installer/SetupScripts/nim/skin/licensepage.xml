@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <VerticalLayout bkcolor="#FF1E1E1E" padding="20,20,20,20">
+    <!-- License协议内容区域 -->
+    <VerticalLayout padding="0,20,0,0">
+      <RichEdit name="editLicense" readonly="true" enabled="true" 
+                textcolor="#FFFFFFFF"  
+                inset="12,12,12,12" bordersize="1" bordercolor="#FF404040"
+                text="License Agreement" font="3"/>
+    </VerticalLayout>
+    <!-- 底部按钮区域 -->
+    <HorizontalLayout height="24" padding="0,20,0,0">
+      <Button name="btnLicenseBack" height="24" width="70" text="<- Back" 
+              bkcolor="#FF404040" textcolor="#FFFFFFFF" 
+              borderround="8,8" />
+      <Control />
+    </HorizontalLayout>
+  </VerticalLayout>
+</Windows> 

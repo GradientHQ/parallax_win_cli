@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <VerticalLayout bkcolor="#FF1E1E1E">
+    <!-- 顶部Logo区域 -->
+    <VerticalLayout height="25" padding="0,5,0,0">
+      <HorizontalLayout>
+        <Control />
+        <Control bkimage="file='resources\logo\gradient_logo.png'" width="6" height="9" />
+        <Control />
+      </HorizontalLayout>
+    </VerticalLayout>
+  
+    <!-- 安装路径区域 -->
+    <VerticalLayout height="70" padding="20,0,20,0">
+      <Label text="Installation path:" textcolor="#FFAAAAAA" align="left" />
+      <HorizontalLayout height="20">
+        <RichEdit name="editDir" text="C:\Program Files\Gradient Parallax\" textcolor="#FFFFFFFF" 
+                  bkcolor="#FF2A2A2A" inset="8,1,8,1" bordersize="1" bordercolor="#FF404040"
+                  wantreturn="false" wantctrlreturn="false" multiline="false" />
+        <Control width="8" />
+        <Button name="btnSelectDir" width="70" height="20" text="Browse..." 
+                bkcolor="#FF404040" textcolor="#FFFFFFFF" 
+                borderround="6,6" />
+      </HorizontalLayout>
+      <Control height="5" />
+      <HorizontalLayout height="18">
+        <Label text="At least 200 MB of disk free is required" textcolor="#FF888888"/>
+      </HorizontalLayout>
+    </VerticalLayout>
+    
+    <!-- 安装说明 -->
+    <VerticalLayout height="40" padding="20,16,20,0">
+      <!-- <Label text="This will install the Gradient Parallax console application." textcolor="#FFAAAAAA" font="1" align="left" />
+      <Label text="You can configure PATH environment variables after installation." textcolor="#FFAAAAAA" font="1" align="left" /> -->
+    </VerticalLayout>
+    
+    <!-- 底部按钮区域 -->
+    <VerticalLayout padding="20,0,20,10">
+      <HorizontalLayout>
+        <Control />
+        <Button name="btnConfigCancel" height="30" width="80" text="Cancel" 
+                bkcolor="#FF404040" textcolor="#FFFFFFFF" 
+                borderround="8,8" />
+        <Control width="15" />
+        <Button name="btnInstall" height="30" width="80" text="Install" 
+                bkcolor="#FF0078D4" textcolor="#FFFFFFFF" 
+                borderround="8,8" />
+      </HorizontalLayout>
+    </VerticalLayout>
+  </VerticalLayout>
+</Windows> 

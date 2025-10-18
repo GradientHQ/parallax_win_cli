@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <!-- 卸载确认页 -->
+  <VerticalLayout>
+    <HorizontalLayout height="64" padding="40,146,40,0">
+      <VerticalLayout width="430">
+        <Label textcolor="#FF000000" font="10" align="left" height="25" text="Are you sure you want to uninstall" />
+        <Label textcolor="#FF000000" font="10" align="left" height="25" text="Gradient Parallax?" padding="0,10"/>
+      </VerticalLayout>
+      <Control bkimage="file='resources\logo\uninstall_right_logo.png'" width="52" height="52" padding="45,6" />
+    </HorizontalLayout>
+    <HorizontalLayout padding="0,105,37,20" height="30" align="right">
+      <Control />
+      <Button name="btnUnInstall" width="135" height="30" bkimage="file='resources\button\btn_continue.png'" />
+    </HorizontalLayout>
+  </VerticalLayout>
+</Windows>

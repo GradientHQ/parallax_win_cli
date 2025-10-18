@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window size="634,378" sizebox="0,0,0,0" caption="0,0,0,378" bktrans="true">
+  <Font id="0" name="Microsoft YaHei" size="12" bold="false" default="true" />
+  <Font id="1" name="Microsoft YaHei" size="11" bold="false" />
+  <Font id="2" name="Microsoft YaHei" size="24" bold="false" />
+  <Font id="3" name="Microsoft YaHei" size="16" bold="false" />
+  <Font id="4" name="Microsoft YaHei" size="32" bold="false" />
+  <Font id="5" name="Microsoft YaHei" size="14" bold="false" />
+  <Font id="6" name="Microsoft YaHei" size="14" bold="true" />
+  <Font id="7" name="Microsoft YaHei" size="13" bold="false" />
+  <Font id="8" name="Microsoft YaHei" size="18" bold="false" />
+  <Font id="9" name="Microsoft YaHei" size="20" bold="true"/>
+  <Font id="10" name="Microsoft YaHei" size="24" bold="true"/>
+  <Font id="11" name="Microsoft YaHei" size="11" bold="true"/>
+  <Include source="default.xml" />
+  <VerticalLayout bkimage="file='resources\bg\bg.png'">
+    <TabLayout name="wizardTab" inset="5,5,5,10">
+      <Include source="welcomepage.xml" />
+      <Include source="licensepage.xml" />
+      <Include source="configpage.xml" />
+      <Include source="installingpage.xml" />		
+      <Include source="finishpage.xml" />
+      <Include source="uninstallpage.xml" />
+      <Include source="uninstallingpage.xml" />		
+      <Include source="uninstallfinishpage.xml" />
+      <Include source="failpage.xml" />
+    </TabLayout>
+    <HorizontalLayout float="true" inset="5,5,5,0" pos="0,0,634,30">
+      <Label width="13" height="13" padding="13,12,0,0" bkimage="file='resources\logo\gradient_logo.png'" />
+      <Label name="lblWindowTitle" padding="10,8,0,0" autowidth="true" text="Parallax Installer" textcolor="#FF000000" /> 
+      <Container />
+      <Button name="btnMin" width="9" height="9" padding="0,13" text="一" textcolor="#FF000000" hottextcolor="#FF00FFFF" pushedtextcolor="#FF00FFFF" />
+      <Control width="5" />
+      <Button name="btnClose" width="9" height="9" padding="10,12,12,0" text="X" textcolor="#FF000000" hottextcolor="#FF00FFFF" pushedtextcolor="#FF00FFFF" font="1"/>
+    </HorizontalLayout> 
+  </VerticalLayout>
+</Window>

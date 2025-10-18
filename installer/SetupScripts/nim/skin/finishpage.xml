@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Windows>
+  <VerticalLayout>
+    <HorizontalLayout padding="40,85,40,0">
+      <Control bkimage="file='resources\finish\bg.png'" width="188" height="188"/>
+      <!-- 环境变量设置选项 -->
+      <VerticalLayout padding="72,33">
+        <Label text="Parallax has been" textcolor="#FF000000" font="10" align="left" height="25"/>
+        <Label text="installed Successfully!" textcolor="#FF000000" font="10" align="left" height="25"/>
+        <HorizontalLayout height="25" padding="0,15">
+          <CheckBox name="chkAddToPathFinish" width="12" height="12" selected="true" normalimage="file='resources\CheckBox\check_no.png'" selectedimage="file='resources\CheckBox\check_yes.png'" padding="0,7"/>
+          <Label text="Add to system PATH environment variable" textcolor="#FF000000" font="1" padding="7,0,0,0" />
+        </HorizontalLayout>
+        <HorizontalLayout height="25">
+          <CheckBox name="chkPathForAllUsersFinish" width="12" height="12" selected="true" normalimage="file='resources\CheckBox\check_no.png'" selectedimage="file='resources\CheckBox\check_yes.png'" padding="0,7"/>
+          <Label text="Add PATH for all users (requires admin)" textcolor="#FF000000" font="1" padding="7,0,0,0" />
+        </HorizontalLayout>
+      </VerticalLayout>
+    </HorizontalLayout>
+
+    <!-- 底部按钮区域 -->
+    <HorizontalLayout padding="40,40,36,19" height="30">
+      <Label text="gradient" font="9" textcolor="#FF000000" />
+      <Control />
+      <Button name="btnFinish" width="183" height="30" bkimage="file='resources\button\btn_finish.png'" />
+    </HorizontalLayout>
+  </VerticalLayout>
+</Windows>
