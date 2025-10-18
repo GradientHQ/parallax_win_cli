@@ -111,8 +111,17 @@ jobs:
         # Get current date for versioning
         $date = Get-Date -Format "yyyyMMdd"
         $time = Get-Date -Format "HHmm"
-        $version = "1.0.0"
         $datetime = "${date}_${time}"
+        
+        # Get version from git tag or use default
+        $gitTag = git describe --tags --exact-match HEAD 2>$null
+        if ($gitTag -and $gitTag -match '^v?(.+)$') {
+          $version = $matches[1]
+          Write-Host "Using version from git tag: $version"
+        } else {
+          $version = "1.0.0"
+          Write-Host "No git tag found, using default version: $version"
+        }
         
         # Create package directory
         New-Item -ItemType Directory -Path "release" -Force
