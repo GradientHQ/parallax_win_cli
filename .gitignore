@@ -36,6 +36,12 @@ Makefile
 *.ipdb
 *.exp
 
+# Exception: Keep NSIS installer tools
+!installer/NSIS/**/*.exe
+!installer/NSIS/**/*.dll
+!installer/*.exe
+!installer/*.dll
+
 # Log files
 *.log
 parallax.log
