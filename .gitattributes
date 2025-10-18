@@ -1,0 +1,42 @@
+# Language detection configuration
+# Mark NSIS toolchain files as vendored to exclude from language stats
+
+# NSIS toolchain directories - mark as vendored
+installer/NSIS/** linguist-vendored
+installer/NSIS/Contrib/** linguist-vendored
+installer/NSIS/Include/** linguist-vendored
+installer/NSIS/Plugins/** linguist-vendored
+
+# NSIS language files - mark as vendored
+installer/NSIS/Contrib/Language\ files/** linguist-vendored
+
+# Other installer-related vendored files
+installer/7z.dll linguist-vendored
+installer/7z.exe linguist-vendored
+installer/NSIS.chm linguist-vendored
+
+# Documentation files
+*.md linguist-documentation
+*.doc linguist-documentation
+*.chm linguist-documentation
+*.txt linguist-documentation
+
+# Resource files - exclude from language stats
+*.png linguist-vendored
+*.bmp linguist-vendored
+*.ico linguist-vendored
+*.xml linguist-vendored
+*.rtf linguist-vendored
+
+# Ensure C++ code is properly detected
+src/**/*.cpp linguist-language=C++
+src/**/*.h linguist-language=C++
+
+# Ensure CMake files are properly detected
+*.cmake linguist-language=CMake
+CMakeLists.txt linguist-language=CMake
+
+# Keep project's own NSIS scripts
+installer/SetupScripts/nim/nim_setup.nsi linguist-language=NSIS
+installer/SetupScripts/commonfunc.nsh linguist-language=NSIS
+installer/SetupScripts/nim/ui_nim_setup.nsh linguist-language=NSIS
