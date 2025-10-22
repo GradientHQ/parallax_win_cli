@@ -1,7 +1,5 @@
 # Parallax Windows CLI
 
-[中文版](README_zh.md) | English
-
 Parallax Windows CLI is a development environment configuration tool for Windows platform, providing automatic detection and installation of WSL2, CUDA toolkit, development tools, and more. This project adopts modern C++ architecture and implements one-click deployment through NSIS-built Windows installer, supporting WSL2 + Ubuntu development environment configuration.
 
 ## Features
