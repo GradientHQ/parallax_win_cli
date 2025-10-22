@@ -367,8 +367,8 @@ void WSLProcess::ProcessOutput(const std::vector<uint8_t>& buffer,
     bool is_stderr = (strcmp(source, "Stderr") == 0);
     std::string convertedOutput =
         parallax::utils::ConvertWslOutputToUtf8(outputStr, is_stderr);
-    info_log("WSL original output: %s", outputStr.c_str());
-    info_log("WSL output: %s", convertedOutput.c_str());
+    debug_log("WSL original output: %s", outputStr.c_str());
+    debug_log("WSL output: %s", convertedOutput.c_str());
     if (convertedOutput.empty()) {
         convertedOutput = outputStr;
     }
