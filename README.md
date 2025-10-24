@@ -172,13 +172,13 @@ parallax config --help
 ### `parallax run`
 Run Parallax inference server directly in WSL
 ```cmd
-parallax run [--help|-h]
+parallax run [args...]
 ```
 
 ### `parallax join`
 Join distributed inference cluster as a node
 ```cmd
-parallax join <coordinator_url> [options]
+parallax join [args...]
 ```
 
 ### `parallax cmd`
@@ -188,8 +188,8 @@ parallax cmd [--venv] <command> [args...]
 ```
 
 **Command Descriptions**:
-- `run`: Start Parallax inference server directly in WSL, default configuration is Qwen/Qwen3-0.6B model, listening on localhost:3001
-- `join`: Join distributed inference cluster as a worker node (open a new terminal with administrator privileges and input `parallax join`)
+- `run`: Start Parallax inference server directly in WSL. You can pass any arguments supported by `parallax run` command. Examples: `parallax run -m Qwen/Qwen3-0.6B`, `parallax run --port 8080`
+- `join`: Join distributed inference cluster as a worker node. You can pass any arguments supported by `parallax join` command. Examples: `parallax join -m Qwen/Qwen3-0.6B`, `parallax join -s scheduler-addr`
 - `cmd`: Pass-through commands to WSL environment, supports `--venv` option to run in parallax project's Python virtual environment
 
 **Main Configuration Items**:

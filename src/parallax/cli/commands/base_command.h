@@ -209,6 +209,50 @@ class WSLCommand : public BaseCommand<Derived> {
         return parallax::utils::BuildWSLDirectCommand(context.ubuntu_version,
                                                       command);
     }
+
+    // Escape arguments for safe passing through bash -c "..."
+    // This prevents command injection and correctly handles spaces/special chars
+    // Note: This is for WSL bash layer, not Windows PowerShell layer
+    std::string EscapeForShell(const std::string& arg) {
+        // If parameter contains spaces, special characters, etc., need to wrap
+        // with quotes
+        if (arg.find(' ') != std::string::npos ||
+            arg.find('\t') != std::string::npos ||
+            arg.find('\n') != std::string::npos ||
+            arg.find('"') != std::string::npos ||
+            arg.find('\'') != std::string::npos ||
+            arg.find('&') != std::string::npos ||
+            arg.find('|') != std::string::npos ||
+            arg.find(';') != std::string::npos ||
+            arg.find('<') != std::string::npos ||
+            arg.find('>') != std::string::npos ||
+            arg.find('(') != std::string::npos ||
+            arg.find(')') != std::string::npos ||
+            arg.find('$') != std::string::npos ||
+            arg.find('`') != std::string::npos ||
+            arg.find('*') != std::string::npos ||
+            arg.find('?') != std::string::npos ||
+            arg.find('[') != std::string::npos ||
+            arg.find(']') != std::string::npos ||
+            arg.find('{') != std::string::npos ||
+            arg.find('}') != std::string::npos) {
+            // Use single quotes to wrap and escape internal single quotes
+            std::string escaped = "'";
+            for (char c : arg) {
+                if (c == '\'') {
+                    escaped += "'\"'\"'";  // End single quote, add escaped
+                                           // single quote, restart single quote
+                } else {
+                    escaped += c;
+                }
+            }
+            escaped += "'";
+            return escaped;
+        }
+
+        // If no special characters, return directly
+        return arg;
+    }
 };
 
 }  // namespace commands

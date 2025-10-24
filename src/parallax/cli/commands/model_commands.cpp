@@ -37,18 +37,23 @@ bool ModelRunCommand::IsParallaxProcessRunning(const CommandContext& context) {
 }
 
 bool ModelRunCommand::RunParallaxScript(const CommandContext& context) {
-    std::string launch_cmd = "cd ~/parallax && source ./venv/bin/activate";
+    // Build run command: parallax run [user parameters...]
+    std::string run_command = BuildRunCommand(context);
+
+    // Build complete WSL command: cd ~/parallax && source ./venv/bin/activate
+    // && parallax run [args...]
+    std::string full_command = "cd ~/parallax && source ./venv/bin/activate";
 
     // If proxy is configured, add proxy environment variables
     if (!context.proxy_url.empty()) {
-        launch_cmd += " && HTTP_PROXY=\"" + context.proxy_url +
-                      "\" HTTPS_PROXY=\"" + context.proxy_url +
-                      "\" parallax run";
+        full_command += " && HTTP_PROXY=\"" + context.proxy_url +
+                        "\" HTTPS_PROXY=\"" + context.proxy_url + "\" " +
+                        run_command;
     } else {
-        launch_cmd += " && parallax run";
+        full_command += " && " + run_command;
     }
 
-    std::string wsl_command = BuildWSLCommand(context, launch_cmd);
+    std::string wsl_command = BuildWSLCommand(context, full_command);
 
     info_log("Executing Parallax launch command: %s", wsl_command.c_str());
 
@@ -56,6 +61,20 @@ bool ModelRunCommand::RunParallaxScript(const CommandContext& context) {
     int exit_code = wsl_process.Execute(wsl_command);
 
     return exit_code == 0;
+}
+
+std::string ModelRunCommand::BuildRunCommand(const CommandContext& context) {
+    std::ostringstream command_stream;
+
+    // Built-in execution of parallax run
+    command_stream << "parallax run";
+
+    // If there are user parameters, append them
+    for (const auto& arg : context.args) {
+        command_stream << " " << EscapeForShell(arg);
+    }
+
+    return command_stream.str();
 }
 
 // ModelJoinCommand implementation
@@ -146,47 +165,6 @@ std::string ModelJoinCommand::BuildJoinCommand(const CommandContext& context) {
     }
 
     return command_stream.str();
-}
-
-std::string ModelJoinCommand::EscapeForShell(const std::string& arg) {
-    // If parameter contains spaces, special characters, etc., need to wrap with
-    // quotes
-    if (arg.find(' ') != std::string::npos ||
-        arg.find('\t') != std::string::npos ||
-        arg.find('\n') != std::string::npos ||
-        arg.find('"') != std::string::npos ||
-        arg.find('\'') != std::string::npos ||
-        arg.find('&') != std::string::npos ||
-        arg.find('|') != std::string::npos ||
-        arg.find(';') != std::string::npos ||
-        arg.find('<') != std::string::npos ||
-        arg.find('>') != std::string::npos ||
-        arg.find('(') != std::string::npos ||
-        arg.find(')') != std::string::npos ||
-        arg.find('$') != std::string::npos ||
-        arg.find('`') != std::string::npos ||
-        arg.find('*') != std::string::npos ||
-        arg.find('?') != std::string::npos ||
-        arg.find('[') != std::string::npos ||
-        arg.find(']') != std::string::npos ||
-        arg.find('{') != std::string::npos ||
-        arg.find('}') != std::string::npos) {
-        // Use single quotes to wrap and escape internal single quotes
-        std::string escaped = "'";
-        for (char c : arg) {
-            if (c == '\'') {
-                escaped += "'\"'\"'";  // End single quote, add escaped single
-                                       // quote, restart single quote
-            } else {
-                escaped += c;
-            }
-        }
-        escaped += "'";
-        return escaped;
-    }
-
-    // If no special characters, return directly
-    return arg;
 }
 
 }  // namespace commands
