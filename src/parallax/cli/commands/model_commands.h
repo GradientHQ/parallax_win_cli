@@ -23,14 +23,14 @@ class ModelRunCommand : public WSLCommand<ModelRunCommand> {
     }
 
     CommandResult ValidateArgsImpl(CommandContext& context) {
-        // runex command does not accept additional parameters
-        for (const auto& arg : context.args) {
-            if (arg != "--help" && arg != "-h") {
-                this->ShowError("Unknown parameter: " + arg);
-                this->ShowError("Usage: parallax run [--help|-h]");
-                return CommandResult::InvalidArgs;
-            }
+        // Check if it's a help request
+        if (context.args.size() == 1 &&
+            (context.args[0] == "--help" || context.args[0] == "-h")) {
+            this->ShowHelpImpl();
+            return CommandResult::Success;
         }
+
+        // run command can be executed with any user-provided parameters
         return CommandResult::Success;
     }
 
@@ -69,31 +69,38 @@ class ModelRunCommand : public WSLCommand<ModelRunCommand> {
     }
 
     void ShowHelpImpl() {
-        std::cout << "Usage: parallax run [options]\n\n";
+        std::cout << "Usage: parallax run [args...]\n\n";
         std::cout
             << "Run Parallax distributed inference server directly in WSL.\n\n";
         std::cout << "This command will:\n";
-        std::cout << "  1. Check if ~/parallax/src/parallax/launch.py exists\n";
-        std::cout << "  2. Start Parallax inference server with default "
-                     "configuration\n\n";
-        std::cout << "Default Configuration:\n";
-        std::cout << "  Model:          Qwen/Qwen3-0.6B\n";
-        std::cout << "  Host:           0.0.0.0\n";
-        std::cout << "  Port:           3000\n";
-        std::cout << "  Max Batch Size: 8\n";
-        std::cout << "  Start Layer:    0\n";
-        std::cout << "  End Layer:      28\n\n";
+        std::cout << "  1. Change to ~/parallax directory\n";
+        std::cout << "  2. Activate the Python virtual environment\n";
+        std::cout << "  3. Set proxy environment variables (if configured)\n";
+        std::cout << "  4. Execute 'parallax run' with your arguments\n\n";
+        std::cout << "Arguments:\n";
+        std::cout << "  args...       Arguments to pass to parallax run "
+                     "(optional)\n\n";
         std::cout << "Options:\n";
-        std::cout << "  --help, -h      Show this help message\n\n";
+        std::cout << "  --help, -h    Show this help message\n\n";
+        std::cout << "Examples:\n";
         std::cout
-            << "Note: The server will be accessible at http://localhost:3000\n";
-        std::cout << "      Use 'parallax stop' to stop the running server.\n";
+            << "  parallax run                             # Execute: parallax "
+               "run\n";
+        std::cout << "  parallax run -m Qwen/Qwen3-0.6B         # Execute: parallax "
+                     "run -m Qwen/Qwen3-0.6B\n";
+        std::cout
+            << "  parallax run --port 8080                 # Execute: parallax "
+               "run --port 8080\n\n";
+        std::cout << "Note: All arguments will be passed to the built-in "
+                     "parallax run script\n";
+        std::cout << "      in the Parallax Python virtual environment.\n";
     }
 
  private:
     bool CheckLaunchScriptExists(const CommandContext& context);
     bool IsParallaxProcessRunning(const CommandContext& context);
     bool RunParallaxScript(const CommandContext& context);
+    std::string BuildRunCommand(const CommandContext& context);
 };
 
 // Join command - join distributed inference cluster as a node
@@ -117,7 +124,6 @@ class ModelJoinCommand : public WSLCommand<ModelJoinCommand> {
 
  private:
     std::string BuildJoinCommand(const CommandContext& context);
-    std::string EscapeForShell(const std::string& arg);
 };
 
 }  // namespace commands

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Enhanced `parallax run` command to support user-defined arguments, allowing flexible configuration (e.g., `-m model_name`, `--port 8080`)
+- Updated `parallax run` help documentation to reflect new argument passing capabilities
+- Improved consistency between `parallax run` and `parallax join` command interfaces
+- Refactored `EscapeForShell` function from duplicate implementations in `ModelRunCommand` and `ModelJoinCommand` to shared `WSLCommand` base class
+
 ### Added
 - Initial release of Parallax Windows CLI
 - Comprehensive environment checking and installation
