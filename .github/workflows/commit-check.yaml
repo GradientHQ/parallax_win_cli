@@ -1,0 +1,9 @@
+name: Commit Message Lint
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
+
+jobs:
+  commitlint:
+    uses: GradientHQ/.github/.github/workflows/commitlint.yml@main
