@@ -108,9 +108,8 @@ Parallax Windows CLI adopts modern C++ design patterns and mainly contains the f
 
 ### 1. Download and Install
 Download the latest installer from the Release page:
-```
-Gradient_Parallax_PC_Setup_v1.0.0.0.exe
-```
+
+[Parallax_Win_Setup.exe](https://github.com/GradientHQ/parallax_win_cli/releases/latest/download/Parallax_Win_Setup.exe)
 
 ### 2. Environment Check
 ```cmd
