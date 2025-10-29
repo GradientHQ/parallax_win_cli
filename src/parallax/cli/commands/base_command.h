@@ -210,6 +210,15 @@ class WSLCommand : public BaseCommand<Derived> {
                                                       command);
     }
 
+    // Build venv activation command with CUDA environment
+    std::string BuildVenvActivationCommand(const CommandContext& context) {
+        // Filter out Windows paths and add CUDA path
+        // Use single quotes and careful escaping for PowerShell/CMD compatibility
+        return "cd ~/parallax && "
+               "export PATH=/usr/local/cuda-12.8/bin:$(echo '$PATH' | tr ':' '\\n' | grep -v '/mnt/c' | paste -sd ':' -) && "
+               "source ./venv/bin/activate";
+    }
+
     // Escape arguments for safe passing through bash -c "..."
     // This prevents command injection and correctly handles spaces/special chars
     // Note: This is for WSL bash layer, not Windows PowerShell layer
