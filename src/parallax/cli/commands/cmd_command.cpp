@@ -130,13 +130,13 @@ std::string CmdCommand::BuildCommand(const CommandContext& context,
     std::string full_command;
 
     if (options.use_venv) {
-        // Execute in virtual environment
-        full_command = "cd ~/parallax && source ./venv/bin/activate";
+        // Execute in virtual environment with CUDA PATH
+        full_command = BuildVenvActivationCommand(context);
 
         // Add proxy support (similar to implementation in model_commands.cpp)
         if (!context.proxy_url.empty()) {
-            full_command += " && HTTP_PROXY=\"" + context.proxy_url +
-                            "\" HTTPS_PROXY=\"" + context.proxy_url + "\" " +
+            full_command += " && HTTP_PROXY='" + context.proxy_url +
+                            "' HTTPS_PROXY='" + context.proxy_url + "' " +
                             command;
         } else {
             full_command += " && " + command;
@@ -144,8 +144,8 @@ std::string CmdCommand::BuildCommand(const CommandContext& context,
     } else {
         // Execute directly in WSL
         if (!context.proxy_url.empty()) {
-            full_command = "HTTP_PROXY=\"" + context.proxy_url +
-                           "\" HTTPS_PROXY=\"" + context.proxy_url + "\" " +
+            full_command = "HTTP_PROXY='" + context.proxy_url +
+                           "' HTTPS_PROXY='" + context.proxy_url + "' " +
                            command;
         } else {
             full_command = command;

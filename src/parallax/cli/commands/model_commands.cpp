@@ -40,14 +40,13 @@ bool ModelRunCommand::RunParallaxScript(const CommandContext& context) {
     // Build run command: parallax run [user parameters...]
     std::string run_command = BuildRunCommand(context);
 
-    // Build complete WSL command: cd ~/parallax && source ./venv/bin/activate
-    // && parallax run [args...]
-    std::string full_command = "cd ~/parallax && source ./venv/bin/activate";
+    // Build complete WSL command with venv activation and CUDA environment
+    std::string full_command = BuildVenvActivationCommand(context);
 
     // If proxy is configured, add proxy environment variables
     if (!context.proxy_url.empty()) {
-        full_command += " && HTTP_PROXY=\"" + context.proxy_url +
-                        "\" HTTPS_PROXY=\"" + context.proxy_url + "\" " +
+        full_command += " && HTTP_PROXY='" + context.proxy_url +
+                        "' HTTPS_PROXY='" + context.proxy_url + "' " +
                         run_command;
     } else {
         full_command += " && " + run_command;
@@ -95,14 +94,13 @@ CommandResult ModelJoinCommand::ExecuteImpl(const CommandContext& context) {
     // Build cluster join command: parallax join [user parameters...]
     std::string join_command = BuildJoinCommand(context);
 
-    // Build complete WSL command: cd ~/parallax && source ./venv/bin/activate
-    // && parallax join [args...]
-    std::string full_command = "cd ~/parallax && source ./venv/bin/activate";
+    // Build complete WSL command with venv activation and CUDA environment
+    std::string full_command = BuildVenvActivationCommand(context);
 
     // If proxy is configured, add proxy environment variables
     if (!context.proxy_url.empty()) {
-        full_command += " && HTTP_PROXY=\"" + context.proxy_url +
-                        "\" HTTPS_PROXY=\"" + context.proxy_url + "\" " +
+        full_command += " && HTTP_PROXY='" + context.proxy_url +
+                        "' HTTPS_PROXY='" + context.proxy_url + "' " +
                         join_command;
     } else {
         full_command += " && " + join_command;
