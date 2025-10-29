@@ -257,23 +257,11 @@ ComponentResult ParallaxProjectInstaller::Install() {
                           true);
 
     if (!is_update_mode) {
-        // Only install sgl_kernel during first installation (use real-time
-        // output)
-        std::string install_sgl_cmd =
-            "cd ~/parallax && source ./venv/bin/activate && pip install "
-            "https://github.com/sgl-project/whl/releases/download/v0.3.7/"
-            "sgl_kernel-0.3.7+cu128-cp310-abi3-manylinux2014_x86_64.whl "
-            "--force-reinstall";
-        if (!proxy_url.empty()) {
-            install_sgl_cmd =
-                "cd ~/parallax && source ./venv/bin/activate && HTTP_PROXY=\"" +
-                proxy_url + "\" HTTPS_PROXY=\"" + proxy_url +
-                "\" pip install "
-                " https://github.com/sgl-project/whl/releases/download/v0.3.7/"
-                "sgl_kernel-0.3.7+cu128-cp310-abi3-manylinux2014_x86_64.whl "
-                "--force-reinstall";
-        }
-        commands.emplace_back("install_sgl_kernel", install_sgl_cmd, 600, true);
+        // Add CUDA environment variable to system profile (only during first installation)
+        std::string add_cuda_env_cmd =
+            "grep -q '/usr/local/cuda-12.8/bin' ~/.bashrc || "
+            "echo 'export PATH=/usr/local/cuda-12.8/bin:$PATH' >> ~/.bashrc";
+        commands.emplace_back("add_cuda_env", add_cuda_env_cmd, 30, false);
     }
 
     // Execute command sequence
