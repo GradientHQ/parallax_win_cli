@@ -44,7 +44,7 @@ Parallax Windows CLI adopts modern C++ design patterns and mainly contains the f
   - Unified command parsing and execution framework
   - Command base class based on template method pattern
   - Support for standardized parameter validation, environment preparation, and execution flow
-- **Supported Commands**: check, install, config, run, join, cmd
+- **Supported Commands**: check, install, config, run, join, chat, cmd
 
 ### 2. Environment Installer
 - **Location**: `src/parallax/environment/`
@@ -133,6 +133,9 @@ parallax check
 
 # Start Parallax inference server (optional)
 parallax run
+
+# Access chat interface (optional)
+parallax chat
 ```
 
 ## Command Reference
@@ -180,6 +183,12 @@ Join distributed inference cluster as a node
 parallax join [args...]
 ```
 
+### `parallax chat`
+Access chat interface from non-scheduler computer
+```cmd
+parallax chat [args...]
+```
+
 ### `parallax cmd`
 Execute commands in WSL or Python virtual environment
 ```cmd
@@ -189,6 +198,7 @@ parallax cmd [--venv] <command> [args...]
 **Command Descriptions**:
 - `run`: Start Parallax inference server directly in WSL. You can pass any arguments supported by `parallax run` command. Examples: `parallax run -m Qwen/Qwen3-0.6B`, `parallax run --port 8080`
 - `join`: Join distributed inference cluster as a worker node. You can pass any arguments supported by `parallax join` command. Examples: `parallax join -m Qwen/Qwen3-0.6B`, `parallax join -s scheduler-addr`
+- `chat`: Access chat interface from any non-scheduler computer. You can pass any arguments supported by `parallax chat` command. Examples: `parallax chat` (local network), `parallax chat -s scheduler-addr` (public network), `parallax chat --host 0.0.0.0` (allow external access). After launching, visit http://localhost:3002 in your browser.
 - `cmd`: Pass-through commands to WSL environment, supports `--venv` option to run in parallax project's Python virtual environment
 
 **Main Configuration Items**:
@@ -290,6 +300,9 @@ parallax config list
 
 # Start inference server test
 parallax run
+
+# Access chat interface test
+parallax chat
 
 # Execute commands in WSL
 parallax cmd "python --version"

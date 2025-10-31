@@ -126,5 +126,28 @@ class ModelJoinCommand : public WSLCommand<ModelJoinCommand> {
     std::string BuildJoinCommand(const CommandContext& context);
 };
 
+// Chat command - access chat interface from non-scheduler computer
+class ModelChatCommand : public WSLCommand<ModelChatCommand> {
+ public:
+    std::string GetName() const override { return "chat"; }
+    std::string GetDescription() const override {
+        return "Access chat interface from non-scheduler computer";
+    }
+
+    EnvironmentRequirements GetEnvironmentRequirements() {
+        EnvironmentRequirements req;
+        req.need_wsl = true;
+        req.sync_proxy = true;
+        return req;
+    }
+
+    CommandResult ValidateArgsImpl(CommandContext& context);
+    CommandResult ExecuteImpl(const CommandContext& context);
+    void ShowHelpImpl();
+
+ private:
+    std::string BuildChatCommand(const CommandContext& context);
+};
+
 }  // namespace commands
 }  // namespace parallax

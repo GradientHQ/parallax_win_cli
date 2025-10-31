@@ -165,5 +165,96 @@ std::string ModelJoinCommand::BuildJoinCommand(const CommandContext& context) {
     return command_stream.str();
 }
 
+// ModelChatCommand implementation
+CommandResult ModelChatCommand::ValidateArgsImpl(CommandContext& context) {
+    // Check if it's a help request
+    if (context.args.size() == 1 &&
+        (context.args[0] == "--help" || context.args[0] == "-h")) {
+        ShowHelpImpl();
+        return CommandResult::Success;
+    }
+
+    // chat command can be executed without parameters (using default settings)
+    return CommandResult::Success;
+}
+
+CommandResult ModelChatCommand::ExecuteImpl(const CommandContext& context) {
+    // Build chat command: parallax chat [user parameters...]
+    std::string chat_command = BuildChatCommand(context);
+
+    // Build complete WSL command with venv activation and CUDA environment
+    std::string full_command = BuildVenvActivationCommand(context);
+
+    // If proxy is configured, add proxy environment variables
+    if (!context.proxy_url.empty()) {
+        full_command += " && HTTP_PROXY='" + context.proxy_url +
+                        "' HTTPS_PROXY='" + context.proxy_url + "' " +
+                        chat_command;
+    } else {
+        full_command += " && " + chat_command;
+    }
+
+    std::string wsl_command = BuildWSLCommand(context, full_command);
+
+    info_log("Executing chat interface command: %s", wsl_command.c_str());
+
+    // Use WSLProcess to execute command for real-time output
+    WSLProcess wsl_process;
+    int exit_code = wsl_process.Execute(wsl_command);
+
+    if (exit_code == 0) {
+        ShowInfo("Chat interface started successfully. Visit http://localhost:3002 in your browser.");
+        return CommandResult::Success;
+    } else {
+        ShowError("Failed to start chat interface with exit code: " +
+                  std::to_string(exit_code));
+        return CommandResult::ExecutionError;
+    }
+}
+
+void ModelChatCommand::ShowHelpImpl() {
+    std::cout << "Usage: parallax chat [args...]\n\n";
+    std::cout << "Access the chat interface from any non-scheduler computer.\n\n";
+    std::cout << "This command will:\n";
+    std::cout << "  1. Change to ~/parallax directory\n";
+    std::cout << "  2. Activate the Python virtual environment\n";
+    std::cout << "  3. Set proxy environment variables (if configured)\n";
+    std::cout << "  4. Execute 'parallax chat' with your arguments\n";
+    std::cout << "  5. Start chat server at http://localhost:3002\n\n";
+    std::cout << "Arguments:\n";
+    std::cout << "  args...       Arguments to pass to parallax chat "
+                 "(optional)\n\n";
+    std::cout << "Options:\n";
+    std::cout << "  --help, -h    Show this help message\n\n";
+    std::cout << "Examples:\n";
+    std::cout
+        << "  parallax chat                           # Execute: parallax "
+           "chat (local area network)\n";
+    std::cout << "  parallax chat -s scheduler-addr         # Execute: parallax "
+                 "chat -s scheduler-addr (public network)\n";
+    std::cout
+        << "  parallax chat -s 12D3KooWLX7MWuzi1Txa5LyZS4eTQ2tPaJijheH8faHggB9SxnBu\n";
+    std::cout << "                                          # Connect to specific scheduler\n";
+    std::cout << "  parallax chat --host 0.0.0.0           # Allow API access from other machines\n\n";
+    std::cout << "Note: All arguments will be passed to the built-in "
+                 "parallax chat script\n";
+    std::cout << "      in the Parallax Python virtual environment.\n";
+    std::cout << "      After launching, visit http://localhost:3002 in your browser.\n";
+}
+
+std::string ModelChatCommand::BuildChatCommand(const CommandContext& context) {
+    std::ostringstream command_stream;
+
+    // Built-in execution of parallax chat
+    command_stream << "parallax chat";
+
+    // If there are user parameters, append them
+    for (const auto& arg : context.args) {
+        command_stream << " " << EscapeForShell(arg);
+    }
+
+    return command_stream.str();
+}
+
 }  // namespace commands
 }  // namespace parallax
