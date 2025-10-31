@@ -158,6 +158,14 @@ void CommandParser::InitializeBuiltinCommands() {
                         return static_cast<int>(result);
                     });
 
+    // Register chat command (access chat interface from non-scheduler computer)
+    RegisterCommand("chat", "Access chat interface from non-scheduler computer",
+                    [](const std::vector<std::string>& args) -> int {
+                        parallax::commands::ModelChatCommand chat_cmd;
+                        auto result = chat_cmd.Execute(args);
+                        return static_cast<int>(result);
+                    });
+
     // Register cmd command (pass-through command to WSL or virtual environment)
     RegisterCommand("cmd",
                     "Execute commands in WSL or Python virtual environment",
